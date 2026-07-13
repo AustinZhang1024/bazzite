@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+name: bazzite
+
+description: This is my personal OS image.
+
+base-image: ghcr.io/ublue-os/bazzite-deck
+image-version: testing-44
+
+platforms:
+  - linux/amd64
+
+modules:
+  - type: rpm-ostree
+    remove:
+      - waydroid
+      - waydroid-selinux
+      - inputplumber
+      - framework-laptop-kmod-common
+      - kmod-framework-laptop
+      - system76-io
+      - kmod-system76-io
+      - system76-driver
+      - kmod-system76-driver
+      - t150-driver
+      - kmod-t150-driver
+      - nvidia-gpu-firmware
+      - intel-gpu-firmware
+      - ibus-table-chinese-cangjie
+      - ibus-table-chinese-quick
+      - galileo-mura
+      - jupiter-fan-control
+      - jupiter-hw-support-btrfs
+      - xwiimote-ng
+      - uld
+      - openrazer-kmod-common
+      - kmod-openrazer
+
+  - type: signing # this sets up the proper policy & signing files for signed images to work fully
