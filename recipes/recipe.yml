@@ -35,5 +35,18 @@ modules:
       - uld
       - openrazer-kmod-common
       - kmod-openrazer
+      - kmod-xone
+      - xone-kmod-common
+
+  - type: copy
+    from: ghcr.io/austinzhang1024/akmods:ogc-44
+    src: /
+    dest: /tmp/akmods-common
+
+  - type: script
+    snippets:
+      - "find /tmp/akmods-common"
+      - "dnf install -y /tmp/akmods-common/rpms/common/xone-kmod-common*.rpm /tmp/akmods-common/rpms/kmods/kmod-xone*.rpm --allowerasing"
+      - "rm -rf /tmp/akmods-common"
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
