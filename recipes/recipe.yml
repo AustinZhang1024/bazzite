@@ -5,7 +5,7 @@ name: bazzite
 description: This is my personal OS image.
 
 base-image: ghcr.io/ublue-os/bazzite-deck
-image-version: testing-44.20260801
+image-version: testing-44
 
 platforms:
   - linux/amd64
@@ -39,8 +39,6 @@ modules:
       - xone-kmod-common
       - sc0710
       - kmod-sc0710
-      - steamos-manager-powerstation
-      - steamos-manager-powerstation-gamescope-session-plus
       - steamdeck-kde-presets
       - steamdeck-dsp
 
