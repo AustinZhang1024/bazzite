@@ -37,6 +37,13 @@ modules:
       - kmod-openrazer
       - kmod-xone
       - xone-kmod-common
+      - sc0710
+      - kmod-sc0710
+      - steamdeck-kde-presets
+      - steamdeck-dsp
+      - steamos-manager-powerstation
+      - steamos-manager-powerstation-gamescope-session-plus
+      - opengamepadui
 
   - type: copy
     from: ghcr.io/austinzhang1024/akmods:ogc-44
@@ -46,7 +53,7 @@ modules:
   - type: script
     snippets:
       - "find /tmp/akmods-common"
-      - "dnf install -y /tmp/akmods-common/rpms/common/xone-kmod-common*.rpm /tmp/akmods-common/rpms/kmods/kmod-xone*.rpm --allowerasing"
+      - "dnf install -y /tmp/akmods-common/rpms/common/xone-kmod-common*.rpm /tmp/akmods-common/rpms/kmods/kmod-xone*.rpm"
       - "rm -rf /tmp/akmods-common"
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
