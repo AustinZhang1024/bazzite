@@ -5,7 +5,7 @@ name: bazzite
 description: This is my personal OS image.
 
 base-image: ghcr.io/ublue-os/bazzite-deck
-image-version: testing-44.20260802.3
+image-version: testing-44.20260801
 
 platforms:
   - linux/amd64
