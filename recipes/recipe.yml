@@ -44,6 +44,7 @@ modules:
       - steamos-manager-powerstation
       - steamos-manager-powerstation-gamescope-session-plus
       - opengamepadui
+      - gamescope-session-ogui-steam
 
   - type: copy
     from: ghcr.io/austinzhang1024/akmods:ogc-44
