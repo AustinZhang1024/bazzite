@@ -39,8 +39,6 @@ modules:
       - xone-kmod-common
       - sc0710
       - kmod-sc0710
-      - steamdeck-kde-presets
-      - steamdeck-dsp
       - steamos-manager-powerstation
       - steamos-manager-powerstation-gamescope-session-plus
 
