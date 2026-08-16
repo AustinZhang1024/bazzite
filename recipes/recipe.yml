@@ -11,35 +11,37 @@ platforms:
   - linux/amd64
 
 modules:
-  - type: rpm-ostree
+  - type: dnf
     remove:
-      - waydroid
-      - waydroid-selinux
-      - inputplumber
-      - framework-laptop-kmod-common
-      - kmod-framework-laptop
-      - system76-io
-      - kmod-system76-io
-      - system76-driver
-      - kmod-system76-driver
-      - t150-driver
-      - kmod-t150-driver
-      - nvidia-gpu-firmware
-      - intel-gpu-firmware
-      - ibus-table-chinese-cangjie
-      - ibus-table-chinese-quick
-      - galileo-mura
-      - jupiter-fan-control
-      - jupiter-hw-support-btrfs
-      - xwiimote-ng
-      - uld
-      - openrazer-kmod-common
-      - kmod-openrazer
-      - kmod-xone
-      - xone-kmod-common
-      - sc0710
-      - kmod-sc0710
-      - steamdeck-kde-presets
-      - steamdeck-dsp
+      auto-remove: true
+      packages:
+        - waydroid
+        - waydroid-selinux
+        - inputplumber
+        - framework-laptop-kmod-common
+        - kmod-framework-laptop
+        - system76-io
+        - kmod-system76-io
+        - system76-driver
+        - kmod-system76-driver
+        - t150-driver
+        - kmod-t150-driver
+        - nvidia-gpu-firmware
+        - intel-gpu-firmware
+        - ibus-table-chinese-cangjie
+        - ibus-table-chinese-quick
+        - galileo-mura
+        - jupiter-fan-control
+        - jupiter-hw-support-btrfs
+        - xwiimote-ng
+        - uld
+        - openrazer-kmod-common
+        - kmod-openrazer
+        - kmod-xone
+        - xone-kmod-common
+        - sc0710
+        - kmod-sc0710
+        - steamdeck-kde-presets
+        - steamdeck-dsp
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
