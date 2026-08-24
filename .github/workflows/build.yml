@@ -31,6 +31,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           RUN_ID=$(gh run list \
+            --repo "${{ github.repository }}" \
             --workflow "${{ github.workflow }}" \
             --status success \
             --limit 1 \
