@@ -15,6 +15,59 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 jobs:
+  check-update:
+    name: Check for base image update
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    outputs:
+      should_build: ${{ steps.check.outputs.should_build }}
+    steps:
+      - name: Install skopeo
+        run: sudo apt-get update && sudo apt-get install -y skopeo jq
+
+      - name: Find last successful run
+        id: last-run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RUN_ID=$(gh run list \
+            --workflow "${{ github.workflow }}" \
+            --status success \
+            --limit 1 \
+            --json databaseId \
+            --jq '.[0].databaseId')
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Download previous digest
+        if: steps.last-run.outputs.run_id != ''
+        uses: actions/download-artifact@v8
+        with:
+          name: last-digest
+          path: .
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.last-run.outputs.run_id }}
+        continue-on-error: true
+
+      - name: Check if base image updated
+        id: check
+        run: |
+          NEW_DIGEST=$(skopeo inspect docker://ghcr.io/ublue-os/bazzite:latest | jq -r .Digest)
+          OLD_DIGEST=$(cat last_digest.txt 2>/dev/null || echo "none")
+          echo "Old: $OLD_DIGEST"
+          echo "New: $NEW_DIGEST"
+          echo "$NEW_DIGEST" > last_digest.txt
+          if [ "$NEW_DIGEST" = "$OLD_DIGEST" ]; then
+            echo "should_build=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_build=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload new digest
+        uses: actions/upload-artifact@v7
+        with:
+          name: last-digest
+          path: last_digest.txt
+          retention-days: 90
   bluebuild:
     name: Build Custom Image
     runs-on: ubuntu-latest
