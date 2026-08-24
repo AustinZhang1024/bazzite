@@ -52,7 +52,7 @@ jobs:
       - name: Check if base image updated
         id: check
         run: |
-          NEW_DIGEST=$(skopeo inspect docker://ghcr.io/ublue-os/bazzite:latest | jq -r .Digest)
+          NEW_DIGEST=$(skopeo inspect --raw docker://ghcr.io/ublue-os/bazzite:stable --format '{{.Digest}}')
           OLD_DIGEST=$(cat last_digest.txt 2>/dev/null || echo "none")
           echo "Old: $OLD_DIGEST"
           echo "New: $NEW_DIGEST"
