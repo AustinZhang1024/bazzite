@@ -22,8 +22,11 @@ jobs:
     outputs:
       should_build: ${{ steps.check.outputs.should_build }}
     steps:
-      - name: Install skopeo
-        run: sudo apt-get update && sudo apt-get install -y skopeo jq
+      - name: Install crane
+        run: |
+          curl -sL https://github.com/google/go-containerregistry/releases/latest/download/go-containerregistry_Linux_x86_64.tar.gz \
+            | tar -xz crane
+          sudo mv crane /usr/local/bin/crane
 
       - name: Find last successful run
         id: last-run
@@ -52,7 +55,7 @@ jobs:
       - name: Check if base image updated
         id: check
         run: |
-          NEW_DIGEST=$(skopeo inspect --raw docker://ghcr.io/ublue-os/bazzite:stable --format '{{.Digest}}')
+          NEW_DIGEST=$(crane digest ghcr.io/ublue-os/bazzite:stable)
           OLD_DIGEST=$(cat last_digest.txt 2>/dev/null || echo "none")
           echo "Old: $OLD_DIGEST"
           echo "New: $NEW_DIGEST"
@@ -72,6 +75,8 @@ jobs:
   bluebuild:
     name: Build Custom Image
     runs-on: ubuntu-latest
+    needs: check-update
+    if: always() && (needs.check-update.result == 'skipped' || needs.check-update.outputs.should_build == 'true')
     permissions:
       contents: read
       packages: write
